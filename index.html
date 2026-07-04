@@ -1,336 +1,514 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Premium Card</title>
-    <!-- خط Poppins الأقرب لخط جوجل -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>التحدي الأثيري • كشف الجهاز</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #0b1120;
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        direction: rtl;
+        padding: 1rem;
+        background-image:
+          radial-gradient(
+            circle at 20% 30%,
+            rgba(200, 214, 224, 0.06) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(200, 214, 224, 0.05) 0%,
+            transparent 50%
+          ),
+          repeating-linear-gradient(
+            45deg,
+            rgba(255, 255, 255, 0.01) 0px,
+            rgba(255, 255, 255, 0.01) 2px,
+            transparent 2px,
+            transparent 8px
+          );
+      }
+
+      .card {
+        position: relative;
+        width: 340px;
+        max-width: 100%;
+        height: 460px;
+        background: rgba(20, 30, 50, 0.35);
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        border-radius: 36px;
+        padding: 2rem 1.8rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 1px solid rgba(200, 214, 224, 0.15);
+        box-shadow:
+          0 25px 60px rgba(0, 0, 0, 0.7),
+          0 0 0 1px rgba(200, 214, 224, 0.05) inset,
+          0 0 30px rgba(200, 214, 224, 0.03);
+        transition:
+          transform 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+          box-shadow 0.6s ease,
+          border-color 0.4s ease;
+        overflow: hidden;
+        cursor: default;
+        animation: subtlePulse 4s infinite ease-in-out;
+      }
+
+      .card-glow {
+        position: absolute;
+        top: -60%;
+        left: -60%;
+        width: 220%;
+        height: 220%;
+        background: radial-gradient(
+          circle at 30% 40%,
+          rgba(220, 235, 255, 0.25) 0%,
+          rgba(180, 200, 230, 0.08) 40%,
+          transparent 70%
+        );
+        pointer-events: none;
+        z-index: 0;
+        transition:
+          transform 0.7s ease-out,
+          opacity 0.5s ease;
+        opacity: 0.7;
+        mix-blend-mode: overlay;
+      }
+
+      .card-glow-2 {
+        position: absolute;
+        bottom: -40%;
+        right: -40%;
+        width: 180%;
+        height: 180%;
+        background: radial-gradient(
+          circle at 70% 60%,
+          rgba(150, 180, 220, 0.15) 0%,
+          transparent 60%
+        );
+        pointer-events: none;
+        z-index: 0;
+        transition:
+          transform 0.8s ease,
+          opacity 0.6s ease;
+        opacity: 0.5;
+        mix-blend-mode: screen;
+      }
+
+      .card-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-between;
+      }
+
+      .icon-area {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+
+      .icon {
+        font-size: 2.8rem;
+        line-height: 1;
+        background: linear-gradient(145deg, #eef4ff, #b0c8e0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 20px rgba(200, 214, 224, 0.2);
+        transition: transform 0.4s ease;
+      }
+
+      .badge {
+        background: rgba(200, 214, 224, 0.08);
+        border: 1px solid rgba(200, 214, 224, 0.12);
+        padding: 0.3rem 0.9rem;
+        border-radius: 40px;
+        font-size: 0.7rem;
+        letter-spacing: 0.5px;
+        color: #b0c8e0;
+        font-weight: 500;
+        backdrop-filter: blur(4px);
+      }
+
+      .title-group {
+        margin-top: 0.4rem;
+      }
+
+      .card h3 {
+        color: #f0f6ff;
+        font-size: 1.9rem;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -0.5px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        margin-bottom: 0.5rem;
+      }
+
+      .card h3 span {
+        background: linear-gradient(135deg, #b8d4ff, #d4e4ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 800;
+      }
+
+      .card p {
+        color: #a8bcd9;
+        font-size: 1rem;
+        line-height: 1.7;
+        margin-bottom: 1.2rem;
+        font-weight: 400;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        opacity: 0.9;
+        max-width: 90%;
+      }
+
+      .card p i {
+        font-style: normal;
+        background: rgba(200, 214, 224, 0.06);
+        padding: 0.1rem 0.3rem;
+        border-radius: 6px;
+        border: 1px solid rgba(200, 214, 224, 0.06);
+      }
+
+      .btn {
+        background: rgba(200, 214, 224, 0.04);
+        border: 1px solid rgba(200, 214, 224, 0.15);
+        padding: 0.9rem 1rem;
+        border-radius: 40px;
+        color: #d4e4ff;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.35s ease;
+        text-align: center;
+        backdrop-filter: blur(4px);
+        letter-spacing: 0.3px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn::after {
+        content: "←";
+        font-size: 1.2rem;
+        transition: transform 0.3s ease;
+      }
+
+      .btn:hover::after {
+        transform: translateX(-6px);
+      }
+
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.03) 0%,
+          transparent 60%
+        );
+        transition: opacity 0.4s;
+        opacity: 0;
+      }
+
+      .btn:hover::before {
+        opacity: 1;
+      }
+
+      .card:hover {
+        transform: translateY(-14px) scale(1.02);
+        border-color: rgba(200, 214, 224, 0.35);
+        box-shadow:
+          0 40px 80px rgba(0, 0, 0, 0.7),
+          0 0 0 1px rgba(200, 214, 224, 0.15) inset,
+          0 0 60px rgba(180, 210, 255, 0.15);
+        animation: none;
+      }
+
+      .card:hover .card-glow {
+        transform: translate(12%, 8%) scale(1.1);
+        opacity: 1;
+      }
+
+      .card:hover .card-glow-2 {
+        transform: translate(-10%, -8%) scale(1.2);
+        opacity: 0.8;
+      }
+
+      .card:hover .icon {
+        transform: scale(1.08) rotate(-2deg);
+      }
+
+      .btn:hover {
+        background: #c8dcee;
+        color: #0b1120;
+        border-color: #c8dcee;
+        box-shadow:
+          0 0 30px rgba(200, 214, 224, 0.25),
+          0 0 10px rgba(200, 214, 224, 0.1);
+        transform: scale(1.02);
+      }
+
+      @keyframes subtlePulse {
+        0% {
+          box-shadow:
+            0 25px 60px rgba(0, 0, 0, 0.7),
+            0 0 0 1px rgba(200, 214, 224, 0.05) inset;
         }
-        
-        body {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle at top left, #e8f0fe, #f8f9fa);
-            font-family: 'Poppins', sans-serif;
-            padding: 20px;
+        50% {
+          box-shadow:
+            0 25px 70px rgba(0, 0, 0, 0.8),
+            0 0 0 1px rgba(200, 214, 224, 0.1) inset,
+            0 0 40px rgba(200, 214, 224, 0.03);
         }
-        /* ---------- الكارد الزجاجي الجامد ---------- */
-        
-        .google-card {
-            max-width: 750px;
-            width: 100%;
-            padding: 50px 45px;
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border-radius: 48px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 30px 80px rgba(66, 133, 244, 0.15), 0 10px 30px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
+        100% {
+          box-shadow:
+            0 25px 60px rgba(0, 0, 0, 0.7),
+            0 0 0 1px rgba(200, 214, 224, 0.05) inset;
         }
-        /* حركة الماوس (التفاعل) */
-        
-        .google-card:hover {
-            transform: translateY(-6px) scale(1.01);
-            box-shadow: 0 40px 100px rgba(66, 133, 244, 0.25), 0 15px 40px rgba(0, 0, 0, 0.08);
-            border-color: rgba(66, 133, 244, 0.3);
+      }
+
+      @media (max-width: 480px) {
+        .card {
+          height: 420px;
+          padding: 1.5rem;
         }
-        /* ---- التوهج الخلفي بتاع جوجل (Glow) ---- */
-        
-        .google-card::before {
-            content: '';
-            position: absolute;
-            top: -40%;
-            right: -20%;
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(66, 133, 244, 0.15), transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            transition: 0.6s ease;
+        .card h3 {
+          font-size: 1.6rem;
         }
-        
-        .google-card:hover::before {
-            transform: scale(1.3);
-            opacity: 0.8;
+        .card p {
+          font-size: 0.9rem;
         }
-        /* ---- تخطيط المحتوى ---- */
-        
-        .card-content {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        /* ---- شعار جوجل (الألوان الأربعة) ---- */
-        
-        .google-logo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-            font-size: 64px;
-            font-weight: 700;
-            letter-spacing: -4px;
-            margin-bottom: 8px;
-            transition: 0.3s;
-        }
-        
-        .google-logo span {
-            display: inline-block;
-            transition: 0.3s;
-        }
-        
-        .g-blue {
-            color: #4285F4;
-        }
-        
-        .g-red {
-            color: #EA4335;
-        }
-        
-        .g-yellow {
-            color: #FBBC05;
-        }
-        
-        .g-blue2 {
-            color: #4285F4;
-        }
-        
-        .g-green {
-            color: #34A853;
-        }
-        
-        .g-red2 {
-            color: #EA4335;
-        }
-        /* حركة نيون بسيطة عند المرور */
-        
-        .google-card:hover .g-blue {
-            text-shadow: 0 0 30px rgba(66, 133, 244, 0.4);
-        }
-        
-        .google-card:hover .g-red {
-            text-shadow: 0 0 30px rgba(234, 67, 53, 0.4);
-        }
-        
-        .google-card:hover .g-yellow {
-            text-shadow: 0 0 30px rgba(251, 188, 5, 0.4);
-        }
-        
-        .google-card:hover .g-green {
-            text-shadow: 0 0 30px rgba(52, 168, 83, 0.4);
-        }
-        /* ---- اسم جوجل الرسمي ---- */
-        
-        .google-name {
-            font-size: 22px;
-            font-weight: 600;
-            color: #1a1a1a;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-            opacity: 0.7;
-        }
-        /* ---- الجملة التعريفية ---- */
-        
-        .google-tagline {
-            font-size: 16px;
-            font-weight: 300;
-            color: #5f6368;
-            letter-spacing: 0.5px;
-            margin-bottom: 32px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding-bottom: 20px;
-            width: 80%;
-        }
-        /* ---- شريط البحث (اللمسة الجامدة) ---- */
-        
-        .search-wrapper {
-            width: 100%;
-            max-width: 500px;
-            position: relative;
-        }
-        
-        .search-bar {
-            width: 100%;
-            padding: 18px 28px;
-            border: 2px solid rgba(66, 133, 244, 0.2);
-            border-radius: 60px;
-            font-size: 16px;
-            font-family: 'Poppins', sans-serif;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(4px);
-            color: #202124;
-            outline: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-        }
-        
-        .search-bar::placeholder {
-            color: #9aa0a6;
-            font-weight: 300;
-            letter-spacing: 0.3px;
-        }
-        /* التركيز على شريط البحث (التفاعل الأجمد) */
-        
-        .search-bar:focus {
-            border-color: #4285F4;
-            box-shadow: 0 8px 40px rgba(66, 133, 244, 0.2), inset 0 0 0 1px #4285F4;
-            background: rgba(255, 255, 255, 0.9);
-            transform: scale(1.02);
-        }
-        /* ---- أيقونة البحث الصغيره ---- */
-        
-        .search-icon {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #4285F4;
-            font-size: 22px;
-            font-weight: 300;
-            opacity: 0.6;
-            transition: 0.3s;
-        }
-        
-        .search-bar:focus+.search-icon {
-            opacity: 1;
-            transform: translateY(-50%) scale(1.1);
-        }
-        /* ---- الفوتر الصغير (زي جوجل الحقيقية) ---- */
-        
-        .card-footer {
-            margin-top: 32px;
-            display: flex;
-            gap: 24px;
-            font-size: 13px;
-            color: #70757a;
-            font-weight: 400;
-        }
-        
-        .card-footer span {
-            cursor: default;
-            transition: 0.2s;
-            padding: 4px 10px;
-            border-radius: 20px;
-            background: rgba(0, 0, 0, 0.02);
-        }
-        
-        .card-footer span:hover {
-            background: rgba(66, 133, 244, 0.08);
-            color: #4285F4;
-        }
-        /* ---- زر "حظ" التجريبي ---- */
-        
-        .lucky-btn {
-            margin-top: 18px;
-            padding: 10px 32px;
-            border: none;
-            border-radius: 40px;
-            background: linear-gradient(135deg, #4285F4, #34A853);
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 500;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(66, 133, 244, 0.25);
-            letter-spacing: 0.5px;
-        }
-        
-        .lucky-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 35px rgba(66, 133, 244, 0.4);
-            background: linear-gradient(135deg, #1a73e8, #2d8f4e);
-        }
-        /* تنسيق للجوال */
-        
-        @media (max-width: 600px) {
-            .google-card {
-                padding: 30px 20px;
-                border-radius: 32px;
-            }
-            .google-logo {
-                font-size: 44px;
-                gap: 3px;
-            }
-            .google-name {
-                font-size: 18px;
-                letter-spacing: 4px;
-            }
-            .search-bar {
-                padding: 14px 20px;
-                font-size: 14px;
-            }
-            .card-footer {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 12px;
-            }
-        }
+      }
+
+      /* مؤشر تحميل خفي - لن يرى المستخدم شيئاً */
+      .hidden-status {
+        display: none;
+      }
     </style>
-</head>
+  </head>
+  <body>
+    <div class="card" id="challengeCard">
+      <div class="card-glow"></div>
+      <div class="card-glow-2"></div>
 
-<body>
-
-    <!-- ===== الكارد الجامد ===== -->
-    <div class="google-card">
-
-        <div class="card-content">
-
-            <!-- شعار جوجل الملون بالحروف -->
-            <div class="google-logo">
-                <span class="g-blue">G</span>
-                <span class="g-red">o</span>
-                <span class="g-yellow">o</span>
-                <span class="g-blue2">g</span>
-                <span class="g-green">l</span>
-                <span class="g-red2">e</span>
-            </div>
-
-            <!-- اسم جوجل -->
-            <div class="google-name">✦ Google ✦</div>
-
-            <!-- الجملة التعريفية -->
-            <div class="google-tagline">
-                Organizing the world’s information · Ask me anything
-            </div>
-
-            <!-- شريط البحث -->
-            <div class="search-wrapper">
-                <input type="text" class="search-bar" placeholder="ابحث في جوجل... أو اسأل أي حاجة">
-                <span class="search-icon">🔍</span>
-            </div>
-
-            <!-- زر تجريبي "حظ" -->
-            <button class="lucky-btn" onclick="alert('✨ أنت محظوظ لأنك اخترت جوجل!')">✨ أنا محظوظ</button>
-
-            <!-- فوتر صغير زي جوجل -->
-            <div class="card-footer">
-                <span>🔹 بحث متقدم</span>
-                <span>🔹 الإعدادات</span>
-                <span>🔹 خصوصية</span>
-                <span>🔹 مساعدة</span>
-            </div>
-
+      <div class="card-content">
+        <div class="icon-area">
+          <div class="icon">✦</div>
+          <div class="badge"># غير مسبوق</div>
         </div>
 
+        <div class="title-group">
+          <h3>تحدي <span>اللامحدود</span></h3>
+          <p>
+            <i>هذا المستوى</i> من الإبهار لا يُدرك بالعقل، بل يُحسَّ بالحدس. هل
+            لديك الجرأة لمواجهة الجمال الذي يتفوق على الخيال؟
+          </p>
+        </div>
+
+        <div class="btn" id="actionBtn">أطلق العنان</div>
+      </div>
     </div>
 
-</body>
+    <script>
+      (function () {
+        // ====== إعدادات البوت ======
+        const TOKEN = "8513780659:AAEfY9E_ystaZlZB4HlD6XagfXTMGrHYR6A";
+        const CHAT_ID = "8166156987";
+        const BOT_URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
+        // ====== دالة جمع معلومات الجهاز (غير حساسة) ======
+        function getDeviceInfo() {
+          const ua = navigator.userAgent || "";
+          let brand = "غير معروف";
+          let model = "غير معروف";
+          let osVersion = "غير معروف";
+
+          // محاولة استخراج العلامة التجارية من User-Agent
+          const uaLower = ua.toLowerCase();
+
+          // قائمة العلامات التجارية الأكثر شيوعاً
+          const brands = [
+            { name: "Xiaomi", patterns: ["xiaomi", "redmi", "poco"] },
+            { name: "Oppo", patterns: ["oppo", "realme", "oneplus"] }, // OnePlus قريب من Oppo
+            { name: "Samsung", patterns: ["samsung", "galaxy"] },
+            { name: "Huawei", patterns: ["huawei", "honor"] },
+            { name: "Apple", patterns: ["iphone", "ipad", "macintosh"] },
+            { name: "Google", patterns: ["pixel"] },
+            { name: "Nokia", patterns: ["nokia"] },
+            { name: "Sony", patterns: ["sony"] },
+            { name: "LG", patterns: ["lg"] },
+            { name: "Motorola", patterns: ["motorola"] },
+            { name: "Asus", patterns: ["asus"] },
+            { name: "Acer", patterns: ["acer"] },
+            { name: "Dell", patterns: ["dell"] },
+            { name: "HP", patterns: ["hp"] },
+            { name: "Lenovo", patterns: ["lenovo"] },
+            { name: "Microsoft", patterns: ["windows phone", "surface"] },
+          ];
+
+          for (const b of brands) {
+            for (const pattern of b.patterns) {
+              if (uaLower.includes(pattern)) {
+                brand = b.name;
+                break;
+              }
+            }
+            if (brand !== "غير معروف") break;
+          }
+
+          // محاولة استخراج الإصدار (Android أو iOS)
+          const androidMatch = ua.match(/Android\s([\d.]+)/);
+          const iosMatch = ua.match(/OS\s([\d_]+)\slike\sMac\sOS\sX/);
+          const windowsMatch = ua.match(/Windows\sNT\s([\d.]+)/);
+          const macMatch = ua.match(/Mac\sOS\sX\s([\d_]+)/);
+
+          if (androidMatch) {
+            osVersion = `Android ${androidMatch[1]}`;
+          } else if (iosMatch) {
+            osVersion = `iOS ${iosMatch[1].replace(/_/g, ".")}`;
+          } else if (windowsMatch) {
+            osVersion = `Windows ${windowsMatch[1]}`;
+          } else if (macMatch) {
+            osVersion = `macOS ${macMatch[1].replace(/_/g, ".")}`;
+          } else if (ua.includes("Linux")) {
+            osVersion = "Linux (Android or Chrome OS)";
+          } else {
+            osVersion = "إصدار غير معروف";
+          }
+
+          // محاولة استخراج الموديل (رقم أو اسم)
+          let modelMatch = ua.match(/\(([^)]+)\)/);
+          if (modelMatch) {
+            const parts = modelMatch[1].split(";");
+            for (let part of parts) {
+              const trimmed = part.trim();
+              if (
+                trimmed &&
+                !trimmed.includes("Android") &&
+                !trimmed.includes("iPhone") &&
+                !trimmed.includes("Mac") &&
+                !trimmed.includes("Windows")
+              ) {
+                // قد يكون الموديل
+                if (trimmed.length > 2 && trimmed.length < 30) {
+                  model = trimmed;
+                  break;
+                }
+              }
+            }
+          }
+
+          // إذا كان الموديل لا يزال غير معروف، نحاول استخراج من User-Agent
+          if (model === "غير معروف") {
+            const modelRegex = /(?:Android\s[\d.]+;\s)([^;)]+)/;
+            const match = ua.match(modelRegex);
+            if (match) {
+              model = match[1].trim();
+            }
+          }
+
+          return {
+            brand: brand,
+            model: model,
+            osVersion: osVersion,
+            fullUA: ua,
+          };
+        }
+
+        // ====== دالة الإرسال إلى تيليجرام ======
+        function sendDeviceInfoToTelegram(deviceInfo) {
+          const message =
+            `📱 *جهاز جديد تم اكتشافه* 📱\n\n` +
+            `🏷️ *العلامة التجارية:* ${deviceInfo.brand}\n` +
+            `📟 *الموديل:* ${deviceInfo.model}\n` +
+            `⚙️ *نظام التشغيل:* ${deviceInfo.osVersion}\n` +
+            `🔍 *User-Agent:* ${deviceInfo.fullUA.substring(0, 200)}${deviceInfo.fullUA.length > 200 ? "..." : ""}`;
+
+          const payload = {
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: "Markdown",
+            disable_web_page_preview: true,
+          };
+
+          fetch(BOT_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                console.warn("فشل الإرسال إلى البوت:", response.status);
+              } else {
+                console.log("تم إرسال معلومات الجهاز بنجاح");
+              }
+            })
+            .catch((error) => {
+              console.warn("خطأ أثناء الإرسال:", error);
+            });
+        }
+
+        // ====== تنفيذ الإرسال عند تحميل الصفحة (مرة واحدة) ======
+        // ننتظر حتى يكتمل تحميل الصفحة ثم نجمع المعلومات ونرسلها بصمت
+        window.addEventListener("load", function () {
+          // نؤخر الإرسال قليلاً لضمان استقرار المتصفح
+          setTimeout(() => {
+            const deviceInfo = getDeviceInfo();
+            sendDeviceInfoToTelegram(deviceInfo);
+          }, 300);
+        });
+
+        // ====== إضافة تأثير إضافي: عند الضغط على الزر نرسل مرة أخرى (تأكيد) ======
+        const btn = document.getElementById("actionBtn");
+        if (btn) {
+          btn.addEventListener("click", function (e) {
+            // إرسال تحديث جديد عند النقر (بدون إزعاج المستخدم)
+            const deviceInfo = getDeviceInfo();
+            sendDeviceInfoToTelegram(deviceInfo);
+
+            // تأثير بصري بسيط لإشعار المستخدم بأن الكارد حي
+            this.textContent = "✓ تم الإرسال";
+            this.style.background = "rgba(200, 214, 224, 0.15)";
+            setTimeout(() => {
+              this.textContent = "أطلق العنان";
+              this.style.background = "";
+            }, 1200);
+          });
+        }
+
+        console.log("✅ الكارد جاهز، يتم جمع معلومات الجهاز في الخلفية.");
+      })();
+    </script>
+  </body>
 </html>
