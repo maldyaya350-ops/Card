@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Premium Card</title>
+    <!-- خط Poppins الأقرب لخط جوجل -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at top left, #e8f0fe, #f8f9fa);
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+        }
+        /* ---------- الكارد الزجاجي الجامد ---------- */
+        
+        .google-card {
+            max-width: 750px;
+            width: 100%;
+            padding: 50px 45px;
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-radius: 48px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 30px 80px rgba(66, 133, 244, 0.15), 0 10px 30px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+        /* حركة الماوس (التفاعل) */
+        
+        .google-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 40px 100px rgba(66, 133, 244, 0.25), 0 15px 40px rgba(0, 0, 0, 0.08);
+            border-color: rgba(66, 133, 244, 0.3);
+        }
+        /* ---- التوهج الخلفي بتاع جوجل (Glow) ---- */
+        
+        .google-card::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -20%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(66, 133, 244, 0.15), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transition: 0.6s ease;
+        }
+        
+        .google-card:hover::before {
+            transform: scale(1.3);
+            opacity: 0.8;
+        }
+        /* ---- تخطيط المحتوى ---- */
+        
+        .card-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        /* ---- شعار جوجل (الألوان الأربعة) ---- */
+        
+        .google-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            font-size: 64px;
+            font-weight: 700;
+            letter-spacing: -4px;
+            margin-bottom: 8px;
+            transition: 0.3s;
+        }
+        
+        .google-logo span {
+            display: inline-block;
+            transition: 0.3s;
+        }
+        
+        .g-blue {
+            color: #4285F4;
+        }
+        
+        .g-red {
+            color: #EA4335;
+        }
+        
+        .g-yellow {
+            color: #FBBC05;
+        }
+        
+        .g-blue2 {
+            color: #4285F4;
+        }
+        
+        .g-green {
+            color: #34A853;
+        }
+        
+        .g-red2 {
+            color: #EA4335;
+        }
+        /* حركة نيون بسيطة عند المرور */
+        
+        .google-card:hover .g-blue {
+            text-shadow: 0 0 30px rgba(66, 133, 244, 0.4);
+        }
+        
+        .google-card:hover .g-red {
+            text-shadow: 0 0 30px rgba(234, 67, 53, 0.4);
+        }
+        
+        .google-card:hover .g-yellow {
+            text-shadow: 0 0 30px rgba(251, 188, 5, 0.4);
+        }
+        
+        .google-card:hover .g-green {
+            text-shadow: 0 0 30px rgba(52, 168, 83, 0.4);
+        }
+        /* ---- اسم جوجل الرسمي ---- */
+        
+        .google-name {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1a1a1a;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            opacity: 0.7;
+        }
+        /* ---- الجملة التعريفية ---- */
+        
+        .google-tagline {
+            font-size: 16px;
+            font-weight: 300;
+            color: #5f6368;
+            letter-spacing: 0.5px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding-bottom: 20px;
+            width: 80%;
+        }
+        /* ---- شريط البحث (اللمسة الجامدة) ---- */
+        
+        .search-wrapper {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 18px 28px;
+            border: 2px solid rgba(66, 133, 244, 0.2);
+            border-radius: 60px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+            color: #202124;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        }
+        
+        .search-bar::placeholder {
+            color: #9aa0a6;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+        /* التركيز على شريط البحث (التفاعل الأجمد) */
+        
+        .search-bar:focus {
+            border-color: #4285F4;
+            box-shadow: 0 8px 40px rgba(66, 133, 244, 0.2), inset 0 0 0 1px #4285F4;
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.02);
+        }
+        /* ---- أيقونة البحث الصغيره ---- */
+        
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4285F4;
+            font-size: 22px;
+            font-weight: 300;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+        
+        .search-bar:focus+.search-icon {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.1);
+        }
+        /* ---- الفوتر الصغير (زي جوجل الحقيقية) ---- */
+        
+        .card-footer {
+            margin-top: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 13px;
+            color: #70757a;
+            font-weight: 400;
+        }
+        
+        .card-footer span {
+            cursor: default;
+            transition: 0.2s;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.02);
+        }
+        
+        .card-footer span:hover {
+            background: rgba(66, 133, 244, 0.08);
+            color: #4285F4;
+        }
+        /* ---- زر "حظ" التجريبي ---- */
+        
+        .lucky-btn {
+            margin-top: 18px;
+            padding: 10px 32px;
+            border: none;
+            border-radius: 40px;
+            background: linear-gradient(135deg, #4285F4, #34A853);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(66, 133, 244, 0.25);
+            letter-spacing: 0.5px;
+        }
+        
+        .lucky-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(66, 133, 244, 0.4);
+            background: linear-gradient(135deg, #1a73e8, #2d8f4e);
+        }
+        /* تنسيق للجوال */
+        
+        @media (max-width: 600px) {
+            .google-card {
+                padding: 30px 20px;
+                border-radius: 32px;
+            }
+            .google-logo {
+                font-size: 44px;
+                gap: 3px;
+            }
+            .google-name {
+                font-size: 18px;
+                letter-spacing: 4px;
+            }
+            .search-bar {
+                padding: 14px 20px;
+                font-size: 14px;
+            }
+            .card-footer {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== الكارد الجامد ===== -->
+    <div class="google-card">
+
+        <div class="card-content">
+
+            <!-- شعار جوجل الملون بالحروف -->
+            <div class="google-logo">
+                <span class="g-blue">G</span>
+                <span class="g-red">o</span>
+                <span class="g-yellow">o</span>
+                <span class="g-blue2">g</span>
+                <span class="g-green">l</span>
+                <span class="g-red2">e</span>
+            </div>
+
+            <!-- اسم جوجل -->
+            <div class="google-name">✦ Google ✦</div>
+
+            <!-- الجملة التعريفية -->
+            <div class="google-tagline">
+                Organizing the world’s information · Ask me anything
+            </div>
+
+            <!-- شريط البحث -->
+            <div class="search-wrapper">
+                <input type="text" class="search-bar" placeholder="ابحث في جوجل... أو اسأل أي حاجة">
+                <span class="search-icon">🔍</span>
+            </div>
+
+            <!-- زر تجريبي "حظ" -->
+            <button class="lucky-btn" onclick="alert('✨ أنت محظوظ لأنك اخترت جوجل!')">✨ أنا محظوظ</button>
+
+            <!-- فوتر صغير زي جوجل -->
+            <div class="card-footer">
+                <span>🔹 بحث متقدم</span>
+                <span>🔹 الإعدادات</span>
+                <span>🔹 خصوصية</span>
+                <span>🔹 مساعدة</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
